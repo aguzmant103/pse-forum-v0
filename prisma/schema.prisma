@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DATABASE_URL") // Used for migrations
+}
+
+model User {
+  id         String   @id @default(cuid())
+  username   String   @unique
+  publicKey  String   @unique @map("public_key")
+  createdAt  DateTime @default(now()) @map("created_at")
+  posts      Post[]
+  comments   Comment[]
+
+  @@map("users")
+}
+
+model Community {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String?
+  isGated     Boolean  @default(false) @map("is_gated")
+  createdAt   DateTime @default(now()) @map("created_at")
+  posts       Post[]
+
+  @@map("communities")
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  content     String
+  authorId    String    @map("author_id")
+  communityId String    @map("community_id")
+  visibility  String    @default("public")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  author      User      @relation(fields: [authorId], references: [id])
+  community   Community @relation(fields: [communityId], references: [id])
+  comments    Comment[]
+
+  @@map("posts")
+}
+
+model Comment {
+  id              String    @id @default(cuid())
+  content         String
+  authorId        String    @map("author_id")
+  postId          String    @map("post_id")
+  parentCommentId String?   @map("parent_comment_id")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  author          User      @relation(fields: [authorId], references: [id])
+  post            Post      @relation(fields: [postId], references: [id])
+  parentComment   Comment?  @relation("CommentToComment", fields: [parentCommentId], references: [id])
+  childComments   Comment[] @relation("CommentToComment")
+
+  @@map("comments")
+} 
