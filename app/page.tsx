@@ -23,7 +23,7 @@ export default function ForumPage() {
             <main className="flex flex-col">
               <TabsContainer 
                 activeTab={activeTab}
-                onTabChange={setActiveTab}
+                onTabChange={(tab) => setActiveTab(tab)}
               />
 
               {/* Forum Posts */}

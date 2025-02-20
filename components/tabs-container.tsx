@@ -10,25 +10,34 @@ interface TabsContainerProps {
 
 export function TabsContainer({ activeTab, onTabChange }: TabsContainerProps) {
   return (
-    <div className="flex items-center justify-between px-6 py-4 border-b">
-      <div className="flex items-center gap-6">
+    <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4E4E7]">
+      <div className="flex h-8 max-h-8 p-1 items-center rounded-lg bg-[#F4F4F5] backdrop-blur-[4px]">
         <Button 
           variant="ghost" 
-          className={`text-sm font-medium ${activeTab === 'all' ? 'text-primary' : 'text-muted-foreground'}`}
+          className={`flex justify-center items-center gap-2 h-auto
+            ${activeTab === 'all' 
+              ? 'bg-white text-[#18181B] px-3 py-1 rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10),0px_1px_2px_0px_rgba(0,0,0,0.06)]' 
+              : 'text-[#71717A]'}`}
           onClick={() => onTabChange('all')}
         >
           All
         </Button>
         <Button 
           variant="ghost" 
-          className={`text-sm font-medium ${activeTab === 'community' ? 'text-primary' : 'text-muted-foreground'}`}
+          className={`flex justify-center items-center gap-2 h-auto
+            ${activeTab === 'community' 
+              ? 'bg-white text-[#18181B] px-3 py-1 rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10),0px_1px_2px_0px_rgba(0,0,0,0.06)]' 
+              : 'text-[#71717A]'}`}
           onClick={() => onTabChange('community')}
         >
           My Community Posts
         </Button>
         <Button 
           variant="ghost" 
-          className={`text-sm font-medium ${activeTab === 'following' ? 'text-primary' : 'text-muted-foreground'}`}
+          className={`flex justify-center items-center gap-2 h-auto
+            ${activeTab === 'following' 
+              ? 'bg-white text-[#18181B] px-3 py-1 rounded-md shadow-[0px_1px_3px_0px_rgba(0,0,0,0.10),0px_1px_2px_0px_rgba(0,0,0,0.06)]' 
+              : 'text-[#71717A]'}`}
           onClick={() => onTabChange('following')}
         >
           Following
