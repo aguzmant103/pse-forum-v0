@@ -1,51 +1,31 @@
+"use client"
+
 import Link from "next/link"
-import { Search } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { LeftSidebar } from "@/components/left-sidebar"
 import { RightSidebar } from "@/components/right-sidebar"
+import { TabsContainer } from "@/components/tabs-container"
+import { Navbar } from "@/components/navbar"
+import { useState } from "react"
 
 export default function ForumPage() {
+  const [activeTab, setActiveTab] = useState<'all' | 'community' | 'following'>('all')
+
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="border-b">
-        <div className="container flex items-center h-14">
-          <Link href="/" className="font-medium">
-            PSE forum
-          </Link>
-          <div className="flex-1 max-w-xl mx-4">
-            <div className="relative">
-              <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-              <Input placeholder="Search..." className="w-full pl-8" />
-            </div>
-          </div>
-        </div>
-      </header>
+      <Navbar />
 
-      <div className="container grid grid-cols-[220px_1fr_280px] gap-6">
+      <div className="container grid grid-cols-[280px_1fr_280px] gap-6">
         <LeftSidebar />
         
         {/* Main Content */}
-        <main className="space-y-4">
-          {/* Filter Container */}
-          <div className="border-b pb-2">
-            <div className="flex items-center pl-6">
-              <div className="flex space-x-4">
-                <Button variant="ghost" className="text-sm font-medium">All</Button>
-                <Button variant="ghost" className="text-sm font-medium">My Community Posts</Button>
-                <Button variant="ghost" className="text-sm font-medium">Following</Button>
-              </div>
-              <div className="ml-auto pr-6">
-                <Link href="/new">
-                  <Button variant="default" size="sm">+ New Post</Button>
-                </Link>
-              </div>
-            </div>
-          </div>
+        <main className="flex flex-col">
+          <TabsContainer 
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          />
 
           {/* Forum Posts */}
-          <div className="space-y-2 px-6">
+          <div className="space-y-2 px-6 py-4">
             {posts.map((post) => (
               <div key={post.id} className="p-4 rounded-lg border bg-card">
                 <div className="flex items-start justify-between">
