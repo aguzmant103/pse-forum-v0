@@ -1,28 +1,29 @@
 "use client"
 
 import Link from "next/link"
-import { Badge } from "@/components/ui/badge"
+import { formatDistanceToNow } from 'date-fns'
 
-interface PostCardProps {
-  post: {
-    id: number
-    title: string
-    author: {
-      name: string
-      initial: string
-      avatarColor: string
-    }
-    community: {
-      name: string
-      href: string
-    }
-    timeAgo: string
-    commentCount?: number
-    tags: string[]
+interface Post {
+  id: string
+  title: string
+  content: string
+  author: {
+    username: string
+  }
+  community: {
+    name: string
+  }
+  createdAt: Date
+  _count?: {
+    comments: number
   }
 }
 
-export function PostCard({ post }: PostCardProps) {
+export function PostCard({ post }: { post: Post }) {
+  const timeAgo = formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })
+  const userInitial = post.author.username.charAt(0).toUpperCase()
+  const commentCount = post._count?.comments ?? 0
+
   return (
     <Link href={`/post/${post.id}`}>
       <div className="flex min-w-[85px] p-3.5 items-start gap-4 rounded-md border border-[#E4E4E7] bg-white hover:bg-[#F4F4F5] transition-colors w-full">
@@ -36,40 +37,25 @@ export function PostCard({ post }: PostCardProps) {
 
           {/* Author Section */}
           <div className="flex items-center gap-1 self-stretch">
-            <div className={`w-5 h-5 rounded-full ${post.author.avatarColor} flex items-center justify-center text-[12px] text-white`}>
-              {post.author.initial}
+            <div className="w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center text-[12px] text-white">
+              {userInitial}
             </div>
-            <span className="text-sm">{post.author.name}</span>
+            <span className="text-sm">{post.author.username}</span>
             <span className="text-sm text-[#71717A]">·</span>
-            <span 
-              onClick={(e) => {
-                e.preventDefault()
-                window.location.href = post.community.href
-              }}
+            <Link 
+              href={`/communities/${post.community.name.toLowerCase()}`}
               className="text-sm text-[#71717A] hover:underline cursor-pointer"
+              onClick={(e) => e.stopPropagation()}
             >
               {post.community.name}
-            </span>
+            </Link>
             <span className="text-sm text-[#71717A]">·</span>
-            <span className="text-sm text-[#71717A]">{post.timeAgo}</span>
-            {post.commentCount && (
+            <span className="text-sm text-[#71717A]">{timeAgo}</span>
+            {commentCount > 0 && (
               <div className="ml-auto px-2 py-1 rounded-md bg-[#FAFAFA] text-sm">
-                {post.commentCount}
+                {commentCount}
               </div>
             )}
-          </div>
-
-          {/* Credentials Section */}
-          <div className="flex items-center gap-1.5 self-stretch">
-            {post.tags.map((tag) => (
-              <Badge 
-                key={tag} 
-                variant="secondary"
-                className="px-2 py-1 bg-[#FAFAFA] text-xs border-[#E4E4E7] text-[#18181B]"
-              >
-                {tag}
-              </Badge>
-            ))}
           </div>
         </div>
       </div>
