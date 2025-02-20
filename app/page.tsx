@@ -14,50 +14,54 @@ export default function ForumPage() {
     <div className="min-h-screen bg-background">
       <Navbar />
 
-      <div className="container grid grid-cols-[280px_1fr_280px] gap-6">
+      <div className="flex">
         <LeftSidebar />
         
-        {/* Main Content */}
-        <main className="flex flex-col">
-          <TabsContainer 
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-          />
+        <div className="flex-1 container">
+          <div className="grid grid-cols-[1fr_280px] gap-6">
+            {/* Main Content */}
+            <main className="flex flex-col">
+              <TabsContainer 
+                activeTab={activeTab}
+                onTabChange={setActiveTab}
+              />
 
-          {/* Forum Posts */}
-          <div className="space-y-2 px-6 py-4">
-            {posts.map((post) => (
-              <div key={post.id} className="p-4 rounded-lg border bg-card">
-                <div className="flex items-start justify-between">
-                  <div className="flex items-center space-x-2">
-                    <div className="w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center text-[12px] text-white">
-                      {post.userInitial}
+              {/* Forum Posts */}
+              <div className="space-y-2 px-6 py-4">
+                {posts.map((post) => (
+                  <div key={post.id} className="p-4 rounded-lg border bg-card">
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-5 h-5 rounded-full bg-purple-600 flex items-center justify-center text-[12px] text-white">
+                          {post.userInitial}
+                        </div>
+                        <span className="text-sm">{post.author}</span>
+                        <span className="text-sm text-muted-foreground">·</span>
+                        <Link href="/pse" className="text-sm text-muted-foreground hover:underline">PSE</Link>
+                        <span className="text-sm text-muted-foreground">·</span>
+                        <span className="text-sm text-muted-foreground">{post.time}</span>
+                      </div>
+                      {post.commentCount && (
+                        <div className="px-2 py-1 rounded-md bg-muted text-sm">
+                          {post.commentCount}
+                        </div>
+                      )}
                     </div>
-                    <span className="text-sm">{post.author}</span>
-                    <span className="text-sm text-muted-foreground">·</span>
-                    <Link href="/pse" className="text-sm text-muted-foreground hover:underline">PSE</Link>
-                    <span className="text-sm text-muted-foreground">·</span>
-                    <span className="text-sm text-muted-foreground">{post.time}</span>
+                    <h3 className="mt-2 text-base font-medium">
+                      <Link href={`/post/${post.id}`}>{post.title}</Link>
+                    </h3>
+                    <div className="mt-2 flex gap-2">
+                      <div className="px-2 py-1 rounded-md bg-muted text-xs">Scalability</div>
+                      <div className="px-2 py-1 rounded-md bg-muted text-xs">Postquantum</div>
+                    </div>
                   </div>
-                  {post.commentCount && (
-                    <div className="px-2 py-1 rounded-md bg-muted text-sm">
-                      {post.commentCount}
-                    </div>
-                  )}
-                </div>
-                <h3 className="mt-2 text-base font-medium">
-                  <Link href={`/post/${post.id}`}>{post.title}</Link>
-                </h3>
-                <div className="mt-2 flex gap-2">
-                  <div className="px-2 py-1 rounded-md bg-muted text-xs">Scalability</div>
-                  <div className="px-2 py-1 rounded-md bg-muted text-xs">Postquantum</div>
-                </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </main>
+            </main>
 
-        <RightSidebar communities={communities} />
+            <RightSidebar communities={communities} />
+          </div>
+        </div>
       </div>
     </div>
   )

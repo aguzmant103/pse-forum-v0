@@ -6,9 +6,9 @@ import { Bell, Home, Link as LinkIcon, LogOut, Settings } from "lucide-react"
 
 export function LeftSidebar() {
   return (
-    <aside className="w-[280px] min-h-[calc(100vh-3.5rem)] bg-[#FAFAFA] flex flex-col justify-between">
-      <div className="p-6 space-y-6">
-        <nav className="space-y-1">
+    <aside className="flex flex-col w-[280px] min-h-[calc(100vh-64px)] px-6 justify-between items-center bg-[#FAFAFA] flex-shrink-0 border-r border-[#E4E4E7]">
+      <div className="flex flex-col gap-6 self-stretch pt-6">
+        <nav className="flex flex-col gap-1">
           <Link href="/">
             <Button variant="ghost" className="w-full justify-start">
               <Home className="mr-2 h-4 w-4" />
@@ -34,7 +34,7 @@ export function LeftSidebar() {
 
         <div className="space-y-2">
           <h2 className="text-xs font-semibold text-muted-foreground tracking-wider px-3">MY COMMUNITIES</h2>
-          <div className="space-y-1">
+          <div className="flex flex-col gap-1">
             <Link href="/pse">
               <Button variant="ghost" className="w-full justify-start">
                 <span className="mr-2 h-4 w-4 rounded-full bg-emerald-600" />
@@ -51,7 +51,7 @@ export function LeftSidebar() {
         </div>
       </div>
 
-      <div className="p-6 space-y-1">
+      <div className="flex flex-col gap-1 self-stretch pb-6">
         <Link href="/settings">
           <Button variant="ghost" className="w-full justify-start">
             <Settings className="mr-2 h-4 w-4" />
